@@ -23,7 +23,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          # ローカルと同じバージョンを使う(.node-version が唯一の正)
+          node-version-file: .node-version
           cache: npm
       - run: npm ci
       - name: Build (static export)

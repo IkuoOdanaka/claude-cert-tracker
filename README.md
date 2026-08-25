@@ -48,8 +48,8 @@ npm run dev
 
 ## 技術スタック
 
-Next.js 15（App Router / 静的書き出し）+ TypeScript + Tailwind CSS v4。
-GitHub Pages で配信、バックエンドなし。
+Next.js 16（App Router / 静的書き出し）+ React 19 + TypeScript + Tailwind CSS v4。
+GitHub Pages で配信、バックエンドなし。Node 22 前提（`.node-version` で固定）。
 
 ## ライセンス
 
