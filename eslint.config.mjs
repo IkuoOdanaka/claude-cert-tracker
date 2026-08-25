@@ -27,6 +27,36 @@ const eslintConfig = [
     },
   },
   {
+    // 進捗の保存先を1か所に閉じ込める。コンポーネントが localStorage を直接触ると、
+    // 検証漏れとハイドレーション不整合が必ず起きる(ADR 0002)。
+    files: ["src/**/*.{ts,tsx}"],
+    ignores: ["src/features/progress/storage.ts", "src/**/*.test.{ts,tsx}"],
+    rules: {
+      "no-restricted-globals": [
+        "error",
+        {
+          name: "localStorage",
+          message:
+            "localStorage は直接触らず、@/features/progress の useProgress() を使ってください。",
+        },
+        {
+          name: "sessionStorage",
+          message:
+            "進捗の保存先は localStorage です。@/features/progress を使ってください。",
+        },
+      ],
+      "no-restricted-properties": [
+        "error",
+        {
+          object: "window",
+          property: "localStorage",
+          message:
+            "localStorage は直接触らず、@/features/progress の useProgress() を使ってください。",
+        },
+      ],
+    },
+  },
+  {
     ignores: [
       "node_modules/**",
       ".next/**",
