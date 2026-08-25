@@ -39,3 +39,49 @@ export function formatRole(role: keyof typeof ROLE_LABELS): string {
 export function formatLevel(level: keyof typeof LEVEL_LABELS): string {
   return LEVEL_LABELS[level];
 }
+
+/**
+ * コースの提供元。
+ *
+ * パートナー限定か一般公開かでアクセスできる人が変わるので、画面でも必ず区別する。
+ */
+const PROVIDER_LABELS = {
+  "partner-academy": "パートナー限定",
+  "anthropic-academy": "一般公開",
+} as const;
+
+const FORMAT_LABELS = {
+  video: "動画",
+  "hands-on": "ハンズオン",
+  reading: "読み物",
+} as const;
+
+const COURSE_STATUS_LABELS = {
+  "not-started": "未着手",
+  "in-progress": "学習中",
+  completed: "完了",
+} as const;
+
+export function formatProvider(provider: keyof typeof PROVIDER_LABELS): string {
+  return PROVIDER_LABELS[provider];
+}
+
+export function formatCourseFormat(format: keyof typeof FORMAT_LABELS): string {
+  return FORMAT_LABELS[format];
+}
+
+export function formatCourseStatus(status: keyof typeof COURSE_STATUS_LABELS): string {
+  return COURSE_STATUS_LABELS[status];
+}
+
+/** 完了時刻。「いつ終えたか」がわかれば十分なので日付まで */
+export function formatCompletedAt(isoDate: string): string {
+  const date = new Date(isoDate);
+  if (Number.isNaN(date.getTime())) return "";
+
+  return new Intl.DateTimeFormat("ja-JP", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(date);
+}

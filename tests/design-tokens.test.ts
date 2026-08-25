@@ -61,6 +61,8 @@ const REQUIREMENTS: [string, string, string, number][] = [
   ["成功 / カード", "success", "surface", 4.5],
   ["注意 / カード", "warning", "surface", 4.5],
   ["危険 / カード", "danger", "surface", 4.5],
+  // セグメント(コースの状態)の選択中: 中立色の反転
+  ["選択中セグメントの文字 / 反転地", "canvas", "ink", 4.5],
   // 操作要素の輪郭。line(装飾用)ではなく line-strong を使うこと
   ["操作要素の輪郭 / カード", "line-strong", "surface", 3],
   ["操作要素の輪郭 / ページ背景", "line-strong", "canvas", 3],
