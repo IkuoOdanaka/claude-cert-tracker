@@ -13,6 +13,17 @@ import type { ComponentProps, ReactNode } from "react";
  *
  * primary を増やすと「どれを押せばいいか」が消えるので、増やしたくなったら
  * 画面の設計を疑う。
+ *
+ * ## 例外: トグルのオン状態
+ *
+ * 塗りつぶしのアクセント色は「primary の CTA」に加えて、
+ * **トグルがオンであること**を示すのにも使う(例: 資格の「目標にしています」)。
+ * どちらも「ここが今いちばん効いている」という同じ意味なので、両立する。
+ * その場合は `aria-pressed` を必ず付けること。
+ *
+ * 一覧の中の各項目に primary の CTA を置くのは避ける(4枚のカードに4つの
+ * 塗りつぶしボタンが並ぶと、一目でわかる性質が消える)。並列の選択肢は
+ * secondary で揃え、選ばれたものだけが塗りつぶされる形にする。
  */
 export type ButtonVariant = "primary" | "secondary" | "ghost" | "danger";
 export type ButtonSize = "md" | "sm";
