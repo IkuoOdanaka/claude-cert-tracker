@@ -1,0 +1,60 @@
+{
+  "certificationId": "claude-certified-associate-foundations",
+  "meta": {
+    "note": "オリジナル問題。公式試験問題の転載ではない。各問に sourceRefs(公開情報の根拠URL)を必ず付ける。",
+    "lastReviewedAt": "2026-08-25"
+  },
+  "questions": [
+    {
+      "id": "assoc-governance-001",
+      "certificationId": "claude-certified-associate-foundations",
+      "domainId": "governance",
+      "type": "single",
+      "difficulty": 1,
+      "stem": "顧客の問い合わせ対応を Claude で自動化する際、責任ある利用の観点から最初に決めておくべきことはどれか。",
+      "choices": [
+        { "id": "a", "text": "使用するモデルのコンテキストウィンドウの上限" },
+        { "id": "b", "text": "人間のレビューが必須になる判断の範囲" },
+        { "id": "c", "text": "レスポンスの平均レイテンシ目標" },
+        { "id": "d", "text": "プロンプトのトークン単価" }
+      ],
+      "correctChoiceIds": ["b"],
+      "explanation": "ガバナンス設計では、まず「どこまでを自動化し、どこから人間が判断するか」の境界を決める。技術的なパラメータやコストはその後の最適化課題であり、責任分界の設計が先に来る。",
+      "sourceRefs": ["https://anthropic-partners.skilljar.com/path/claude-certified-associate-foundations"]
+    },
+    {
+      "id": "assoc-evaluation-001",
+      "certificationId": "claude-certified-associate-foundations",
+      "domainId": "evaluation",
+      "type": "multiple",
+      "difficulty": 2,
+      "stem": "Claude の出力品質を継続的に検証する仕組みとして適切なものを 2 つ選べ。",
+      "choices": [
+        { "id": "a", "text": "期待する出力を定義したテストケース群を用意し、変更のたびに実行する" },
+        { "id": "b", "text": "毎回プロンプトを書き直して、そのつど目視で確認する" },
+        { "id": "c", "text": "重要な判断について、サンプリングした出力を人間がレビューする運用を組む" },
+        { "id": "d", "text": "出力が長いほど品質が高いとみなして文字数で評価する" }
+      ],
+      "correctChoiceIds": ["a", "c"],
+      "explanation": "再現性のある評価には、(1)自動で回せる評価データセットと、(2)サンプリングによる人間のレビュー、の組み合わせが有効。場当たりの目視確認や文字数のような代理指標は品質を測れない。",
+      "sourceRefs": ["https://anthropic-partners.skilljar.com/path/claude-certified-associate-foundations"]
+    },
+    {
+      "id": "assoc-prompting-001",
+      "certificationId": "claude-certified-associate-foundations",
+      "domainId": "prompting",
+      "type": "single",
+      "difficulty": 1,
+      "stem": "同じ業務タスクを毎週繰り返す場合、出力のばらつきを抑えるために最も効果的なのはどれか。",
+      "choices": [
+        { "id": "a", "text": "毎回その場でプロンプトを考える" },
+        { "id": "b", "text": "出力フォーマットと判断基準を明示したテンプレートを用意して使い回す" },
+        { "id": "c", "text": "できるだけ短いプロンプトにする" },
+        { "id": "d", "text": "毎回異なるモデルを使う" }
+      ],
+      "correctChoiceIds": ["b"],
+      "explanation": "反復タスクでは、期待する出力フォーマットと判断基準を明示したテンプレート化が再現性を最も高める。",
+      "sourceRefs": ["https://anthropic-partners.skilljar.com/path/claude-certified-associate-foundations"]
+    }
+  ]
+}

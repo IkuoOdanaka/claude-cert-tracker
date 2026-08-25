@@ -1,0 +1,129 @@
+{
+  "$schema": "./schema/certifications.schema.json",
+  "meta": {
+    "source": "https://anthropic-partners.skilljar.com/",
+    "lastVerifiedAt": "2026-08-25",
+    "note": "公式サイトの掲載内容を手動で書き写したもの。examDomains は公式の出題範囲表ではなく Prep Course のモジュール構成から導出している(domainsSource を参照)。"
+  },
+  "certifications": [
+    {
+      "id": "claude-certified-associate-foundations",
+      "name": "Claude Certified Associate – Foundations",
+      "shortName": "Associate – Foundations",
+      "role": "associate",
+      "level": "foundations",
+      "priceUsd": 99,
+      "targetAudience": "顧客を適切な Claude ユースケースへ導くコンサルタント・セールス・デリバリーリード",
+      "summary": "Claude を業務の全域でプロフェッショナルに運用し、信頼できる再現性のある成果を出せることを示す認定。",
+      "officialUrl": "https://anthropic-partners.skilljar.com/claude-certified-associate-foundations-certification",
+      "prepPathUrl": "https://anthropic-partners.skilljar.com/path/claude-certified-associate-foundations",
+      "notes": ["Claude Partner Network のティア要件にはカウントされない(公式サイト記載)"],
+      "courseIds": [
+        "assoc-claude-platform-and-model-foundations",
+        "assoc-prompting-and-task-execution",
+        "assoc-evaluating-and-validating-output",
+        "assoc-workflow-integration-and-solution-design",
+        "assoc-configuration-and-knowledge-management",
+        "assoc-governance-risk-and-responsible-use",
+        "assoc-troubleshooting-and-optimization",
+        "assoc-course-summary-and-next-steps"
+      ],
+      "domainsSource": "derived-from-prep-courses",
+      "examDomains": [
+        { "id": "platform-foundations", "name": "プラットフォーム & モデルの基礎" },
+        { "id": "prompting", "name": "プロンプト設計とタスク実行" },
+        { "id": "evaluation", "name": "出力の評価と検証" },
+        { "id": "workflow-integration", "name": "ワークフロー統合とソリューション設計" },
+        { "id": "configuration-knowledge", "name": "設定とナレッジ管理" },
+        { "id": "governance", "name": "ガバナンス・リスク・責任ある利用" },
+        { "id": "troubleshooting", "name": "トラブルシューティングと最適化" }
+      ]
+    },
+    {
+      "id": "claude-certified-developer-foundations",
+      "name": "Claude Certified Developer – Foundations",
+      "shortName": "Developer – Foundations",
+      "role": "developer",
+      "level": "foundations",
+      "priceUsd": 125,
+      "targetAudience": "Claude API・Claude Code・Model Context Protocol で構築するエンジニア",
+      "summary": "Claude の上に本番品質のアプリケーション・エージェント・ワークフローを構築できることを示す認定。",
+      "officialUrl": "https://anthropic-partners.skilljar.com/page/partner-certifications",
+      "prepPathUrl": "https://anthropic-partners.skilljar.com/path/claude-certified-developer-foundations",
+      "notes": [],
+      "courseIds": [
+        "dev-mso-foundations",
+        "dev-production-grade-prompting-agents-tool-use",
+        "dev-claude-code-mcp-and-integration",
+        "dev-production-engineering-evals-and-security",
+        "dev-accelerators-and-ip-contribution"
+      ],
+      "domainsSource": "derived-from-prep-courses",
+      "examDomains": [
+        { "id": "model-foundations", "name": "モデルと技術的基礎" },
+        { "id": "prompting-agents-tools", "name": "本番品質のプロンプト・エージェント・ツール利用" },
+        { "id": "claude-code-mcp", "name": "Claude Code・MCP・統合" },
+        { "id": "production-evals-security", "name": "本番エンジニアリング・評価・セキュリティ" },
+        { "id": "accelerators-ip", "name": "アクセラレータと IP コントリビューション" }
+      ]
+    },
+    {
+      "id": "claude-certified-architect-foundations",
+      "name": "Claude Certified Architect – Foundations",
+      "shortName": "Architect – Foundations",
+      "role": "architect",
+      "level": "foundations",
+      "priceUsd": 125,
+      "targetAudience": "デプロイ先の選定からエージェント型アーキテクチャの設計まで、Claude ソリューションを端から端まで設計するパートナー",
+      "summary": "Claude ソリューションを設計する上での基礎知識(API・各クラウド・MCP・Claude Code)を示す認定。",
+      "officialUrl": "https://anthropic-partners.skilljar.com/page/partner-certifications",
+      "prepPathUrl": "https://anthropic-partners.skilljar.com/page/claude-certified-architect-foundations-prep-courses",
+      "notes": ["Prep は学習パスではなく個別コースの寄せ集めとして提示されている"],
+      "courseIds": [
+        "ai-fluency-framework-and-foundations",
+        "claude-101",
+        "building-with-the-claude-api",
+        "introduction-to-model-context-protocol",
+        "claude-code-in-action",
+        "claude-with-amazon-bedrock",
+        "claude-on-google-cloud"
+      ],
+      "domainsSource": "derived-from-prep-courses",
+      "examDomains": [
+        { "id": "ai-fluency", "name": "AI フルーエンシーと基礎" },
+        { "id": "claude-api", "name": "Claude API での構築" },
+        { "id": "deployment-platforms", "name": "デプロイ先の選定(Bedrock / Google Cloud / 直接 API)" },
+        { "id": "mcp", "name": "Model Context Protocol" },
+        { "id": "claude-code", "name": "Claude Code の実践" }
+      ]
+    },
+    {
+      "id": "claude-certified-architect-professional",
+      "name": "Claude Certified Architect – Professional",
+      "shortName": "Architect – Professional",
+      "role": "architect",
+      "level": "professional",
+      "priceUsd": 175,
+      "targetAudience": "エンタープライズ向け Claude ソリューションを構築する上級アーキテクト",
+      "summary": "本番品質の Claude システムを設計・統合・ガバナンスできることを端から端まで示す上位認定。",
+      "officialUrl": "https://anthropic-partners.skilljar.com/page/partner-certifications",
+      "prepPathUrl": "https://anthropic-partners.skilljar.com/path/claude-certified-architect-professional",
+      "notes": ["Architect – Foundations の内容を前提とする想定(公式に明記された必須要件ではない)"],
+      "courseIds": [
+        "arch-claude-platform-and-solution-design",
+        "arch-enterprise-integration-and-production",
+        "arch-responsible-ai-safety-and-risk",
+        "arch-stakeholder-engagement-lifecycle-gtm",
+        "arch-team-enablement-and-operational-productivity"
+      ],
+      "domainsSource": "derived-from-prep-courses",
+      "examDomains": [
+        { "id": "platform-solution-design", "name": "プラットフォームとソリューション設計" },
+        { "id": "enterprise-integration", "name": "エンタープライズ統合と本番運用" },
+        { "id": "responsible-ai-risk", "name": "責任ある AI・安全性・リスク" },
+        { "id": "stakeholder-lifecycle-gtm", "name": "ステークホルダー・ライフサイクル・GTM" },
+        { "id": "team-enablement", "name": "チームイネーブルメントと運用生産性" }
+      ]
+    }
+  ]
+}
