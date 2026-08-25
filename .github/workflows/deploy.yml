@@ -1,8 +1,10 @@
 name: Deploy to GitHub Pages
 
 on:
-  push:
-    branches: [main]
+  # リポジトリ設定で Pages を有効化するまでは自動デプロイしない(Issue #9)。
+  # 有効化したら push トリガーを戻す:
+  #   push:
+  #     branches: [main]
   workflow_dispatch:
 
 permissions:
