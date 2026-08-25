@@ -1,26 +1,95 @@
 @import "tailwindcss";
 
+/*
+ * デザイントークン
+ *
+ * 落ち着いた暖色系のニュートラルに、アクセントはテラコッタ1色だけ。
+ * 色数を絞るのは「押すべきボタン」を色で一目で示すため。
+ * アクセント色を主要導線以外に使うと、その一目でわかる性質が壊れる。
+ *
+ * ここの値は tests/design-tokens.test.ts がコントラスト比(WCAG AA)を検証している。
+ * 色を変えたらテストも通ること。
+ */
+
+/* --- light --- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --canvas: #faf8f5;
+  --surface: #ffffff;
+  --line: #e3ded5;
+  --line-strong: #8a8275;
+  --ink: #1c1a17;
+  --ink-muted: #6b6458;
+  --accent: #a2492a;
+  --accent-hover: #8a3d22;
+  --on-accent: #ffffff;
+  --accent-soft: #f6ebe5;
+  --success: #2f6b45;
+  --warning: #8a5a12;
+  --danger: #a32c22;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
+/* --- dark --- */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --canvas: #161513;
+    --surface: #201e1b;
+    --line: #37332d;
+    --line-strong: #7a7367;
+    --ink: #efebe4;
+    --ink-muted: #a8a093;
+    --accent: #e08a62;
+    --accent-hover: #eb9b76;
+    --on-accent: #241009;
+    --accent-soft: #33231c;
+    --success: #7cc297;
+    --warning: #d9ae5f;
+    --danger: #ee8377;
   }
 }
 
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-on-accent: var(--on-accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+
+  --radius-card: 0.75rem;
+  --radius-control: 0.5rem;
+
+  /* Geist は latin のみ。日本語は OS のゴシックに落とす */
+  --font-sans: var(--font-geist-sans), "Hiragino Sans", "Hiragino Kaku Gothic ProN",
+    "Noto Sans JP", "Yu Gothic Medium", Meiryo, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  /* 375px 幅で横スクロールを出さないための保険 */
+  overflow-wrap: break-word;
+}
+
+/*
+ * フォーカスリングは消さない。キーボードだけで模擬試験を完走できることを
+ * 目標にしているので(Issue #16)、どの要素でも必ず見えるようにしておく。
+ */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-control);
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--ink);
 }
