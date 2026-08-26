@@ -289,3 +289,14 @@ export function writeProgress(progress: ProgressState): boolean {
 export function clearProgress(): void {
   getStorage()?.removeItem(STORAGE_KEY);
 }
+
+/**
+ * 進捗も、読めなかったデータの退避も、すべて消す。
+ * 設定画面の「すべて消す」から呼ぶ。ユーザーが全部消したいと言っている以上、
+ * 復旧用の退避だけ残しても意味がない。
+ */
+export function clearAllProgressData(): void {
+  const storage = getStorage();
+  storage?.removeItem(STORAGE_KEY);
+  storage?.removeItem(UNREADABLE_BACKUP_KEY);
+}
