@@ -3,6 +3,8 @@
 Anthropic の Claude 認定資格を取るための学習トラッカー。
 取りたい資格を選ぶと必要なコースが並び、消化状況を記録でき、模擬試験で仕上げられる。
 
+**https://ikuoodanaka.github.io/claude-cert-tracker/**
+
 > [!NOTE]
 > **Anthropic 非公式の個人プロジェクトです。** Anthropic 社とは無関係で、提携・後援関係もありません。
 >
