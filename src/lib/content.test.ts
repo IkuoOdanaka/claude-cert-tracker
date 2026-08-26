@@ -3,6 +3,7 @@ import {
   countQuestionsByDomain,
   getCertification,
   getCertifications,
+  getCertificationsForCourse,
   getContentMeta,
   getCourse,
   getCoursesFor,
@@ -184,5 +185,24 @@ describe("countQuestionsByDomain", () => {
 describe("getContentMeta", () => {
   it("最終確認日を YYYY-MM-DD で返す", () => {
     expect(getContentMeta().lastVerifiedAt).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+  });
+});
+
+describe("getCertificationsForCourse", () => {
+  it("そのコースを含む資格を返す", () => {
+    const ids = getCertificationsForCourse("dev-mso-foundations").map((c) => c.id);
+    expect(ids).toEqual([DEVELOPER]);
+  });
+
+  it("どの資格にも属さないコース ID には空配列を返す", () => {
+    expect(getCertificationsForCourse("no-such-course")).toEqual([]);
+  });
+
+  it("すべてのコースが少なくとも1つの資格に属している", () => {
+    for (const certification of getCertifications()) {
+      for (const courseId of certification.courseIds) {
+        expect(getCertificationsForCourse(courseId).length, courseId).toBeGreaterThan(0);
+      }
+    }
   });
 });

@@ -1,26 +1,24 @@
 import type { Metadata } from "next";
-import { ButtonLink } from "@/components/Button";
-import { EmptyState } from "@/components/EmptyState";
+import { Dashboard, type DashboardEntry } from "@/components/Dashboard";
 import { PageHeading } from "@/components/PageHeading";
+import { getCertifications, getCoursesFor } from "@/lib/content";
 
 export const metadata: Metadata = { title: "ダッシュボード" };
 
 export default function DashboardPage() {
+  // どれが目標かはブラウザ側にしかないので、全資格を渡して絞り込みは Dashboard で行う
+  const entries: DashboardEntry[] = getCertifications().map((certification) => ({
+    certification,
+    courses: getCoursesFor(certification),
+  }));
+
   return (
     <>
       <PageHeading
         title="ダッシュボード"
-        description="目標にした資格の進捗と、模擬試験のスコア推移をまとめて見られます。"
+        description="目標にした資格の進捗と、直近の学習をまとめて見られます。"
       />
-      <EmptyState
-        title="まだ目標の資格を選んでいません"
-        description="目指す資格を選ぶと、ここに進捗がまとまって表示されます。"
-        action={
-          <ButtonLink href="/" variant="primary">
-            資格を選ぶ
-          </ButtonLink>
-        }
-      />
+      <Dashboard entries={entries} />
     </>
   );
 }

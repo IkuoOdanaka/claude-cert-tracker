@@ -17,6 +17,7 @@ import {
   formatCourseFormat,
   formatDuration,
   formatProvider,
+  formatRemainingStudyTime,
 } from "@/lib/format";
 import type { Certification, Course } from "@/types/domain";
 
@@ -59,13 +60,8 @@ export function CertificationRoadmap({
               <p className="mt-3 text-sm text-ink-muted">
                 残りの学習時間の目安:{" "}
                 <strong className="font-medium text-ink">
-                  {remaining.measuredCourseCount === 0
-                    ? "未掲載"
-                    : formatDuration(remaining.totalMinutes)}
+                  {formatRemainingStudyTime(remaining)}
                 </strong>
-                {remaining.unmeasuredCourseCount > 0 ? (
-                  <>（別に {remaining.unmeasuredCourseCount} コースは所要時間の掲載なし）</>
-                ) : null}
               </p>
             </>
           )}
