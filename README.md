@@ -4,11 +4,18 @@ Anthropic の Claude 認定資格を取るための学習トラッカー。
 取りたい資格を選ぶと必要なコースが並び、消化状況を記録でき、模擬試験で仕上げられる。
 
 > [!NOTE]
-> **Anthropic 非公式の個人プロジェクトです。** Anthropic 社とは無関係で、公式の学習コンテンツや
-> 試験問題は一切含みません。掲載している資格・コース情報は
-> [Anthropic Partner Academy](https://anthropic-partners.skilljar.com/) の公開ページを
-> 手作業で書き写したもので、最新かつ正確であることは保証しません。必ず公式サイトで確認してください。
+> **Anthropic 非公式の個人プロジェクトです。** Anthropic 社とは無関係で、提携・後援関係もありません。
+>
+> 掲載しているのは [Anthropic Partner Academy](https://anthropic-partners.skilljar.com/) で
+> 公開されている**事実情報のみ**です（資格名・レベル・価格・コース名・提供元・形式・所要時間・
+> 公式ページの URL）。**公式の説明文・教材・試験問題は、転載も翻訳もしていません。**
+> コースの内容は公式ページで確認してください。
+>
+> 事実情報は自動同期しておらず、最新かつ正確であることは保証しません。受験の判断は必ず公式サイトで。
 > 模擬試験の問題はすべてオリジナルで、公式試験問題の転載ではありません。
+>
+> 「Claude」「Anthropic」は Anthropic PBC の商標です。掲載内容について権利上の懸念がある場合は
+> Issue でお知らせください。
 
 ## できること
 
@@ -24,10 +31,10 @@ Anthropic の Claude 認定資格を取るための学習トラッカー。
 
 | 資格 | 対象者 | 価格 |
 | --- | --- | --- |
-| Claude Certified Associate – Foundations | コンサルタント・セールス・デリバリーリード | $99 |
-| Claude Certified Developer – Foundations | Claude API / Claude Code / MCP で構築するエンジニア | $125 |
-| Claude Certified Architect – Foundations | Claude ソリューションを端から端まで設計するパートナー | $125 |
-| Claude Certified Architect – Professional | エンタープライズ向けを設計する上級アーキテクト | $175 |
+| Claude Certified Associate – Foundations | コンサルタント／営業／デリバリー担当 | $99 |
+| Claude Certified Developer – Foundations | エンジニア（Claude API・Claude Code・MCP） | $125 |
+| Claude Certified Architect – Foundations | ソリューションアーキテクト | $125 |
+| Claude Certified Architect – Professional | エンタープライズ向けの上級アーキテクト | $175 |
 
 ## 開発
 

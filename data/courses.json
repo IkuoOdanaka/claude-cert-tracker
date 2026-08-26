@@ -8,8 +8,10 @@
       "format": "video",
       "estimatedMinutes": 59,
       "url": "https://anthropic-partners.skilljar.com/path/claude-certified-associate-foundations",
-      "summary": "Claude のモデルファミリーとプラットフォームの全体像を押さえる。",
-      "tags": ["foundations", "platform"]
+      "tags": [
+        "foundations",
+        "platform"
+      ]
     },
     {
       "id": "assoc-prompting-and-task-execution",
@@ -18,8 +20,9 @@
       "format": "video",
       "estimatedMinutes": 53,
       "url": "https://anthropic-partners.skilljar.com/path/claude-certified-associate-foundations",
-      "summary": "業務タスクを Claude に確実に実行させるためのプロンプト設計。",
-      "tags": ["prompting"]
+      "tags": [
+        "prompting"
+      ]
     },
     {
       "id": "assoc-evaluating-and-validating-output",
@@ -28,8 +31,9 @@
       "format": "video",
       "estimatedMinutes": 74,
       "url": "https://anthropic-partners.skilljar.com/path/claude-certified-associate-foundations",
-      "summary": "出力の妥当性を評価・検証する方法。",
-      "tags": ["evaluation"]
+      "tags": [
+        "evaluation"
+      ]
     },
     {
       "id": "assoc-workflow-integration-and-solution-design",
@@ -38,8 +42,9 @@
       "format": "video",
       "estimatedMinutes": 63,
       "url": "https://anthropic-partners.skilljar.com/path/claude-certified-associate-foundations",
-      "summary": "既存の業務フローへの組み込みとソリューション設計。",
-      "tags": ["solution-design"]
+      "tags": [
+        "solution-design"
+      ]
     },
     {
       "id": "assoc-configuration-and-knowledge-management",
@@ -48,8 +53,10 @@
       "format": "video",
       "estimatedMinutes": 47,
       "url": "https://anthropic-partners.skilljar.com/path/claude-certified-associate-foundations",
-      "summary": "設定とナレッジ管理で再現性のある結果を出す。",
-      "tags": ["configuration", "knowledge"]
+      "tags": [
+        "configuration",
+        "knowledge"
+      ]
     },
     {
       "id": "assoc-governance-risk-and-responsible-use",
@@ -58,8 +65,10 @@
       "format": "video",
       "estimatedMinutes": 55,
       "url": "https://anthropic-partners.skilljar.com/path/claude-certified-associate-foundations",
-      "summary": "ガバナンス・リスク・責任ある利用。",
-      "tags": ["governance", "responsible-ai"]
+      "tags": [
+        "governance",
+        "responsible-ai"
+      ]
     },
     {
       "id": "assoc-troubleshooting-and-optimization",
@@ -68,8 +77,9 @@
       "format": "video",
       "estimatedMinutes": 30,
       "url": "https://anthropic-partners.skilljar.com/path/claude-certified-associate-foundations",
-      "summary": "うまくいかないときの切り分けと最適化。",
-      "tags": ["troubleshooting"]
+      "tags": [
+        "troubleshooting"
+      ]
     },
     {
       "id": "assoc-course-summary-and-next-steps",
@@ -78,10 +88,10 @@
       "format": "video",
       "estimatedMinutes": 8,
       "url": "https://anthropic-partners.skilljar.com/path/claude-certified-associate-foundations",
-      "summary": "総まとめと次のステップ。",
-      "tags": ["summary"]
+      "tags": [
+        "summary"
+      ]
     },
-
     {
       "id": "dev-mso-foundations",
       "title": "MSO Foundations",
@@ -89,8 +99,9 @@
       "format": "video",
       "estimatedMinutes": 57,
       "url": "https://anthropic-partners.skilljar.com/path/claude-certified-developer-foundations",
-      "summary": "モデルの基礎と技術的な土台。",
-      "tags": ["foundations"]
+      "tags": [
+        "foundations"
+      ]
     },
     {
       "id": "dev-production-grade-prompting-agents-tool-use",
@@ -99,8 +110,11 @@
       "format": "hands-on",
       "estimatedMinutes": 209,
       "url": "https://anthropic-partners.skilljar.com/path/claude-certified-developer-foundations",
-      "summary": "信頼できるプロンプト・ツール・コンテキスト管理・エージェントループで最初の本番統合を作る。",
-      "tags": ["agents", "tool-use", "prompting"]
+      "tags": [
+        "agents",
+        "tool-use",
+        "prompting"
+      ]
     },
     {
       "id": "dev-claude-code-mcp-and-integration",
@@ -109,8 +123,10 @@
       "format": "hands-on",
       "estimatedMinutes": 142,
       "url": "https://anthropic-partners.skilljar.com/path/claude-certified-developer-foundations",
-      "summary": "統合を設定可能・共有可能・安全に接続可能にする。",
-      "tags": ["claude-code", "mcp"]
+      "tags": [
+        "claude-code",
+        "mcp"
+      ]
     },
     {
       "id": "dev-production-engineering-evals-and-security",
@@ -119,8 +135,11 @@
       "format": "hands-on",
       "estimatedMinutes": 211,
       "url": "https://anthropic-partners.skilljar.com/path/claude-certified-developer-foundations",
-      "summary": "開発環境で動くエージェントを本番トラフィックに耐える形にする。",
-      "tags": ["evals", "security", "production"]
+      "tags": [
+        "evals",
+        "security",
+        "production"
+      ]
     },
     {
       "id": "dev-accelerators-and-ip-contribution",
@@ -129,10 +148,10 @@
       "format": "video",
       "estimatedMinutes": 155,
       "url": "https://anthropic-partners.skilljar.com/path/claude-certified-developer-foundations",
-      "summary": "再利用・レビュー・デプロイに耐える成果物にパッケージする。",
-      "tags": ["delivery"]
+      "tags": [
+        "delivery"
+      ]
     },
-
     {
       "id": "ai-fluency-framework-and-foundations",
       "title": "AI Fluency: Framework & Foundations",
@@ -140,8 +159,10 @@
       "format": "video",
       "estimatedMinutes": null,
       "url": "https://anthropic.skilljar.com/",
-      "summary": "AI と効果的・効率的・倫理的・安全に協働するための枠組み。",
-      "tags": ["ai-fluency", "foundations"]
+      "tags": [
+        "ai-fluency",
+        "foundations"
+      ]
     },
     {
       "id": "building-with-the-claude-api",
@@ -150,8 +171,9 @@
       "format": "hands-on",
       "estimatedMinutes": null,
       "url": "https://anthropic.skilljar.com/",
-      "summary": "Claude API を使った開発の全体像。",
-      "tags": ["api"]
+      "tags": [
+        "api"
+      ]
     },
     {
       "id": "claude-on-google-cloud",
@@ -160,8 +182,10 @@
       "format": "hands-on",
       "estimatedMinutes": null,
       "url": "https://anthropic.skilljar.com/",
-      "summary": "Google Cloud 上で Claude を扱う。",
-      "tags": ["deployment", "gcp"]
+      "tags": [
+        "deployment",
+        "gcp"
+      ]
     },
     {
       "id": "claude-code-in-action",
@@ -170,8 +194,9 @@
       "format": "hands-on",
       "estimatedMinutes": null,
       "url": "https://anthropic.skilljar.com/",
-      "summary": "長時間・自律的な Claude Code セッションを制御・自動化・検証する。",
-      "tags": ["claude-code"]
+      "tags": [
+        "claude-code"
+      ]
     },
     {
       "id": "claude-101",
@@ -180,8 +205,9 @@
       "format": "video",
       "estimatedMinutes": null,
       "url": "https://anthropic.skilljar.com/",
-      "summary": "日常業務での Claude の使い方と中核機能。",
-      "tags": ["foundations"]
+      "tags": [
+        "foundations"
+      ]
     },
     {
       "id": "claude-with-amazon-bedrock",
@@ -190,8 +216,10 @@
       "format": "hands-on",
       "estimatedMinutes": null,
       "url": "https://anthropic.skilljar.com/",
-      "summary": "AWS Bedrock 経由で Claude を扱う。",
-      "tags": ["deployment", "aws"]
+      "tags": [
+        "deployment",
+        "aws"
+      ]
     },
     {
       "id": "introduction-to-model-context-protocol",
@@ -200,10 +228,10 @@
       "format": "hands-on",
       "estimatedMinutes": null,
       "url": "https://anthropic.skilljar.com/",
-      "summary": "MCP のサーバー/クライアントを Python でゼロから作る。",
-      "tags": ["mcp"]
+      "tags": [
+        "mcp"
+      ]
     },
-
     {
       "id": "arch-claude-platform-and-solution-design",
       "title": "Claude Platform & Solution Design",
@@ -211,8 +239,10 @@
       "format": "video",
       "estimatedMinutes": 238,
       "url": "https://anthropic-partners.skilljar.com/path/claude-certified-architect-professional",
-      "summary": "プラットフォーム選定とソリューション設計。",
-      "tags": ["architecture", "solution-design"]
+      "tags": [
+        "architecture",
+        "solution-design"
+      ]
     },
     {
       "id": "arch-enterprise-integration-and-production",
@@ -221,8 +251,10 @@
       "format": "video",
       "estimatedMinutes": 158,
       "url": "https://anthropic-partners.skilljar.com/path/claude-certified-architect-professional",
-      "summary": "エンタープライズ統合と本番運用。",
-      "tags": ["integration", "production"]
+      "tags": [
+        "integration",
+        "production"
+      ]
     },
     {
       "id": "arch-responsible-ai-safety-and-risk",
@@ -231,8 +263,10 @@
       "format": "video",
       "estimatedMinutes": 114,
       "url": "https://anthropic-partners.skilljar.com/path/claude-certified-architect-professional",
-      "summary": "アーキテクト向けの責任ある AI・安全性・リスク。",
-      "tags": ["responsible-ai", "governance"]
+      "tags": [
+        "responsible-ai",
+        "governance"
+      ]
     },
     {
       "id": "arch-stakeholder-engagement-lifecycle-gtm",
@@ -241,8 +275,10 @@
       "format": "video",
       "estimatedMinutes": 178,
       "url": "https://anthropic-partners.skilljar.com/path/claude-certified-architect-professional",
-      "summary": "ステークホルダー対応・ライフサイクル・GTM。",
-      "tags": ["gtm", "delivery"]
+      "tags": [
+        "gtm",
+        "delivery"
+      ]
     },
     {
       "id": "arch-team-enablement-and-operational-productivity",
@@ -251,8 +287,10 @@
       "format": "video",
       "estimatedMinutes": 45,
       "url": "https://anthropic-partners.skilljar.com/path/claude-certified-architect-professional",
-      "summary": "チームのイネーブルメントと運用生産性。",
-      "tags": ["enablement"]
+      "tags": [
+        "enablement"
+      ]
     }
-  ]
+  ],
+  "$comment": "掲載しているのは事実情報のみ（コース名・提供元・形式・所要時間・URL・独自のタグ）。公式の説明文は転載も翻訳もしない。内容の説明は url 先の公式ページに委ねる。"
 }

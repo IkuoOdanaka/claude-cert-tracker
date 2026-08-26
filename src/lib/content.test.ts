@@ -104,7 +104,6 @@ describe("summarizeStudyTime", () => {
     format: "video",
     estimatedMinutes,
     url: "https://example.com/",
-    summary: "",
     tags: [],
   });
 

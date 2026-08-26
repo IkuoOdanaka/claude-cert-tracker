@@ -20,9 +20,11 @@ export async function generateMetadata({
   const { id } = await params;
   const certification = getCertification(id);
 
+  if (!certification) return { title: "資格" };
+
   return {
-    title: certification?.shortName ?? "資格",
-    description: certification?.summary,
+    title: certification.shortName,
+    description: `${certification.name} の学習ロードマップ。Prep Course ${certification.courseIds.length} コースの進捗を記録できます。`,
   };
 }
 
@@ -37,11 +39,15 @@ export default async function CertificationPage({
   if (!certification) notFound();
 
   const courses = getCoursesFor(certification);
+
   const derivedDomains = certification.domainsSource === "derived-from-prep-courses";
 
   return (
     <>
-      <PageHeading title={certification.name} description={certification.summary} />
+      <PageHeading
+        title={certification.name}
+        description={`公式の Prep Course ${courses.length} コースを推奨学習順に並べています。コースの内容は公式ページで確認してください。`}
+      />
 
       <Card className="mb-6">
         <CardBody className="flex flex-col gap-4">

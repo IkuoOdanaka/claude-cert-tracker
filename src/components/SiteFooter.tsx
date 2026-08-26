@@ -16,7 +16,7 @@ export function SiteFooter() {
       <div className="mx-auto max-w-5xl px-4 py-8 text-sm text-ink-muted">
         <p className="max-w-prose">
           このサイトは <strong className="font-medium text-ink">Anthropic 非公式</strong>{" "}
-          の個人プロジェクトです。資格・コース情報は{" "}
+          の個人プロジェクトです。掲載しているのは{" "}
           <a
             href={OFFICIAL_URL}
             target="_blank"
@@ -25,7 +25,8 @@ export function SiteFooter() {
           >
             Anthropic Partner Academy
           </a>{" "}
-          の公開ページを手作業で書き写したもので、最新かつ正確である保証はありません。
+          で公開されている事実情報（資格名・価格・コース構成・所要時間）のみで、
+          公式の説明文や教材は転載していません。最新かつ正確である保証はないため、
           受験の判断は必ず公式サイトで確認してください。
         </p>
 
@@ -35,6 +36,11 @@ export function SiteFooter() {
 
         <p className="mt-3">
           進捗データはお使いのブラウザ内にのみ保存され、サーバーには送信されません。
+        </p>
+
+        <p className="mt-3 text-xs">
+          「Claude」「Anthropic」は Anthropic PBC の商標です。
+          このサイトは同社との提携・後援関係にはありません。
         </p>
 
         <p className="mt-4">

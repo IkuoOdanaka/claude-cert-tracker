@@ -90,12 +90,28 @@ export default function AboutPage() {
           </p>
         </Section>
 
-        <Section title="載っている情報の出所">
+        <Section title="載っている情報の範囲と出所">
           <p>
-            資格 {certificationCount} 件・コース {courseCount} 件の情報は、
-            <ExternalLink href={source}>公式サイト</ExternalLink>
-            の公開ページを<strong className="font-medium text-ink">手作業で書き写した</strong>
-            ものです。自動で同期しているわけではないため、
+            このサイトが掲載しているのは、
+            <strong className="font-medium text-ink">
+              公式サイトで公開されている事実情報だけ
+            </strong>
+            です。具体的には、資格 {certificationCount} 件の名称・レベル・価格と、
+            それぞれの Prep Course に含まれるコース {courseCount} 件の名称・提供元・形式・
+            所要時間・公式ページの URL です。
+          </p>
+          <p>
+            出所: <ExternalLink href={source}>{source}</ExternalLink>
+          </p>
+          <p>
+            <strong className="font-medium text-ink">
+              公式の説明文・教材・試験問題は、転載も翻訳もしていません。
+            </strong>
+            コースの内容がどのようなものかは、各コースの「公式ページで開く」から
+            公式サイトでご確認ください。このサイトはその判断材料を置き換えるものではありません。
+          </p>
+          <p>
+            事実情報は自動で同期しているわけではないため、
             <strong className="font-medium text-ink">
               最新かつ正確であることは保証できません
             </strong>
@@ -119,8 +135,32 @@ export default function AboutPage() {
           ) : null}
           <p>
             出題ドメインの区分は、公式の出題範囲表ではありません。
-            公式の Prep Course のモジュール構成から、このサイトが独自に整理したものです。
+            公式の Prep Course のモジュール構成をもとに、このサイトが独自に整理したものです。
             該当箇所には画面上でもその旨を表示しています。
+          </p>
+        </Section>
+
+        <Section title="著作権と商標について">
+          <p>
+            資格名・コース名・価格・所要時間・コース構成といった事実情報は、
+            公式サイトの内容を指し示すために掲載しています。
+            公式サイトの文章、スライド、動画、試験問題などの著作物は、
+            <strong className="font-medium text-ink">一切掲載していません</strong>。
+          </p>
+          <p>
+            「Claude」「Anthropic」は Anthropic PBC の商標です。
+            このサイトでは、どの製品・どの資格の話をしているかを示すためにのみ使用しており、
+            <strong className="font-medium text-ink">
+              Anthropic 社との提携・後援・推奨の関係はありません
+            </strong>
+            。
+          </p>
+          <p>
+            掲載内容について権利上の懸念がある場合は、
+            <ExternalLink href={`${REPOSITORY_URL}/issues`}>
+              リポジトリの Issue
+            </ExternalLink>
+            からお知らせください。確認のうえ速やかに対応します。
           </p>
         </Section>
 
