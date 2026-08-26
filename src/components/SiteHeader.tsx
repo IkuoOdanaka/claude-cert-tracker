@@ -21,11 +21,14 @@ export function SiteHeader() {
   return (
     <header className="border-b border-line bg-surface">
       <div className="mx-auto flex max-w-5xl flex-col gap-2 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:py-4">
-        <Link
-          href="/"
-          className="text-base font-semibold tracking-tight text-ink hover:text-accent"
-        >
-          Claude 資格トラッカー
+        {/* 非公式であることは、サイト名の隣に常に出しておく */}
+        <Link href="/" className="flex items-baseline gap-2">
+          <span className="text-base font-semibold tracking-tight text-ink hover:text-accent">
+            Claude 資格トラッカー
+          </span>
+          <span className="rounded-full border border-line px-2 py-0.5 text-xs font-normal text-ink-muted">
+            非公式
+          </span>
         </Link>
 
         {/*

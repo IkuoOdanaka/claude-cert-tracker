@@ -113,7 +113,6 @@ export function CertificationRoadmap({
                         </span>
                       </div>
 
-                      <p className="mt-2 pl-6 text-sm text-ink-muted">{course.summary}</p>
                     </div>
 
                     {loading ? (

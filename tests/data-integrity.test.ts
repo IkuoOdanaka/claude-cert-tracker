@@ -58,6 +58,51 @@ describe("certifications.json", () => {
   });
 });
 
+/**
+ * 掲載してよいのは事実情報だけ、という方針をデータ側で縛る。
+ *
+ * 以前 courses/certifications に公式の説明文を和訳した summary を持たせていたが、
+ * 翻訳は二次的著作物にあたるため削除した。同じものが戻ってこないよう、
+ * 「自由記述の長文フィールドが増えていないこと」をここで検出する。
+ * コース内容の説明は url 先の公式ページに委ねる。
+ */
+describe("掲載範囲(事実情報のみ)", () => {
+  const ALLOWED_COURSE_KEYS = [
+    "id",
+    "title",
+    "provider",
+    "format",
+    "estimatedMinutes",
+    "url",
+    "tags",
+  ];
+
+  it("コースに想定外のフィールドが増えていない", () => {
+    for (const course of courses) {
+      expect(Object.keys(course).sort(), course.id).toEqual(
+        [...ALLOWED_COURSE_KEYS].sort(),
+      );
+    }
+  });
+
+  it("資格に説明文フィールドを持たせていない", () => {
+    for (const certification of certifications) {
+      expect(certification, certification.id).not.toHaveProperty("summary");
+      expect(certification, certification.id).not.toHaveProperty("description");
+    }
+  });
+
+  it("対象者は職種の短いラベルであって、引き写した文章ではない", () => {
+    for (const certification of certifications) {
+      expect(
+        certification.targetAudience.length,
+        `${certification.id}: 長い説明文は載せない`,
+      ).toBeLessThanOrEqual(40);
+      expect(certification.targetAudience, certification.id).not.toMatch(/。/);
+    }
+  });
+});
+
 describe("data/questions/*.json", () => {
   it("問題が正しい資格・ドメインに紐づいている", () => {
     for (const bank of questionBanks) {

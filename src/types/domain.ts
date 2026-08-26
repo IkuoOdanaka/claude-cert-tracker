@@ -7,6 +7,9 @@
 
 // ---------------------------------------------------------------------------
 // 静的コンテンツ: data/courses.json, data/certifications.json
+//
+// 掲載するのは**事実情報のみ**(名称・価格・構成・所要時間・URL)。
+// 公式の説明文は転載も翻訳もしない。コース内容の説明は url 先に委ねる。
 // ---------------------------------------------------------------------------
 
 export type CourseProvider = "partner-academy" | "anthropic-academy";
@@ -20,7 +23,6 @@ export interface Course {
   /** 公式に掲載がないものは null */
   estimatedMinutes: number | null;
   url: string;
-  summary: string;
   tags: string[];
 }
 
@@ -41,8 +43,8 @@ export interface Certification {
   role: CertificationRole;
   level: CertificationLevel;
   priceUsd: number;
+  /** 対象者。公式の文面ではなく、このサイトが要約した職種の並び */
   targetAudience: string;
-  summary: string;
   officialUrl: string;
   prepPathUrl: string;
   notes: string[];
