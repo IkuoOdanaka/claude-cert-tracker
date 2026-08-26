@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getContentMeta } from "@/lib/content";
 
 const OFFICIAL_URL = "https://anthropic-partners.skilljar.com/";
@@ -37,6 +38,13 @@ export function SiteFooter() {
         </p>
 
         <p className="mt-4">
+          <Link
+            href="/about"
+            className="text-accent underline underline-offset-2 hover:text-accent-hover"
+          >
+            このサイトについて
+          </Link>
+          <span className="mx-2 text-line-strong">/</span>
           <a
             href={REPOSITORY_URL}
             target="_blank"
