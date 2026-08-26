@@ -78,6 +78,19 @@ export function getCoursesFor(certification: Certification | string): Course[] {
     .filter((course): course is Course => course !== undefined);
 }
 
+/**
+ * そのコースを含む資格を返す。
+ *
+ * ダッシュボードの学習履歴で「どの資格のコースか」を添えるのに使う。
+ * 1つのコースが複数の資格に現れることもありうるので配列で返す
+ * (現在のデータでは Architect – Foundations が一般公開コースを参照している)。
+ */
+export function getCertificationsForCourse(courseId: string): Certification[] {
+  return certifications.filter((certification) =>
+    certification.courseIds.includes(courseId),
+  );
+}
+
 // ---------------------------------------------------------------------------
 // 学習時間
 // ---------------------------------------------------------------------------

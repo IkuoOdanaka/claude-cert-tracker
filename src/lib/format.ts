@@ -1,4 +1,5 @@
 /** 画面表示用のフォーマット。表示の都合をコンポーネントに散らかさないためにここへ集める。 */
+import type { StudyTimeSummary } from "./content";
 
 /**
  * 分を「12時間54分」の形にする。
@@ -84,4 +85,31 @@ export function formatCompletedAt(isoDate: string): string {
     month: "long",
     day: "numeric",
   }).format(date);
+}
+
+/**
+ * 残りの学習時間の文言。
+ *
+ * 「所要時間が判明しているコースの合計」と「未掲載のコース数」を1文にまとめる。
+ * 分岐を各画面に書くと必ずズレるのでここに閉じ込める。
+ *
+ * 注意すべきは **すべて完了して残り0件になった場合**。measuredCourseCount が 0 に
+ * なるので「未掲載」と同じ条件に見えてしまうが、意味は正反対(残りが無い)。
+ * 先に総数で判定する。
+ */
+export function formatRemainingStudyTime(summary: StudyTimeSummary): string {
+  const remainingCourses =
+    summary.measuredCourseCount + summary.unmeasuredCourseCount;
+
+  if (remainingCourses === 0) return "0分（すべて完了）";
+
+  if (summary.measuredCourseCount === 0) {
+    return `未掲載（残り ${summary.unmeasuredCourseCount} コース）`;
+  }
+
+  const total = formatDuration(summary.totalMinutes);
+
+  return summary.unmeasuredCourseCount > 0
+    ? `${total}（別に ${summary.unmeasuredCourseCount} コースは所要時間の掲載なし）`
+    : total;
 }
