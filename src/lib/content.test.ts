@@ -4,10 +4,13 @@ import {
   getCertification,
   getCertifications,
   getCertificationsForCourse,
+  getContentFreshness,
   getContentMeta,
+  getContentStats,
   getCourse,
   getCoursesFor,
   getQuestionBank,
+  STALE_AFTER_DAYS,
   summarizeStudyTime,
   summarizeStudyTimeFor,
 } from "./content";
@@ -204,5 +207,39 @@ describe("getCertificationsForCourse", () => {
         expect(getCertificationsForCourse(courseId).length, courseId).toBeGreaterThan(0);
       }
     }
+  });
+});
+
+describe("getContentFreshness", () => {
+  const verified = getContentMeta().lastVerifiedAt;
+  const at = (offsetDays: number) =>
+    new Date(new Date(`${verified}T00:00:00Z`).getTime() + offsetDays * 86_400_000);
+
+  it("確認日当日は経過0日で、古くない", () => {
+    expect(getContentFreshness(at(0))).toMatchObject({
+      daysSinceVerified: 0,
+      stale: false,
+    });
+  });
+
+  it("しきい値ちょうどではまだ古いとしない", () => {
+    expect(getContentFreshness(at(STALE_AFTER_DAYS)).stale).toBe(false);
+  });
+
+  it("しきい値を超えたら古いとする", () => {
+    expect(getContentFreshness(at(STALE_AFTER_DAYS + 1))).toMatchObject({
+      daysSinceVerified: STALE_AFTER_DAYS + 1,
+      stale: true,
+    });
+  });
+
+  it("確認日より前の時刻でも負の日数にしない", () => {
+    expect(getContentFreshness(at(-10)).daysSinceVerified).toBe(0);
+  });
+});
+
+describe("getContentStats", () => {
+  it("掲載している資格数とコース数を返す", () => {
+    expect(getContentStats()).toEqual({ certificationCount: 4, courseCount: 25 });
   });
 });

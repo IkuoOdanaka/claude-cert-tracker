@@ -186,3 +186,43 @@ export function getContentMeta(): ContentMeta {
   const { lastVerifiedAt, source } = certificationsJson.meta;
   return { lastVerifiedAt, source };
 }
+
+/**
+ * 公式サイトとの突き合わせから何日経ったか。
+ *
+ * このアプリの一番の信頼性リスクは「古い情報を載せ続けること」なので、
+ * 一定期間を超えたら画面で注意を出せるようにしておく。
+ */
+export const STALE_AFTER_DAYS = 90;
+
+export interface ContentFreshness {
+  lastVerifiedAt: string;
+  /** 確認日からの経過日数。未来日付や解釈できない値のときは 0 */
+  daysSinceVerified: number;
+  stale: boolean;
+}
+
+export function getContentFreshness(now: Date = new Date()): ContentFreshness {
+  const { lastVerifiedAt } = getContentMeta();
+  const verified = new Date(`${lastVerifiedAt}T00:00:00Z`);
+
+  if (Number.isNaN(verified.getTime())) {
+    return { lastVerifiedAt, daysSinceVerified: 0, stale: false };
+  }
+
+  const elapsedDays = Math.floor(
+    (now.getTime() - verified.getTime()) / (24 * 60 * 60 * 1000),
+  );
+  const daysSinceVerified = Math.max(0, elapsedDays);
+
+  return {
+    lastVerifiedAt,
+    daysSinceVerified,
+    stale: daysSinceVerified > STALE_AFTER_DAYS,
+  };
+}
+
+/** 掲載しているデータの規模。「このサイトについて」で出所と一緒に示す */
+export function getContentStats(): { certificationCount: number; courseCount: number } {
+  return { certificationCount: certifications.length, courseCount: courses.length };
+}
