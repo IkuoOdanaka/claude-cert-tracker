@@ -137,6 +137,101 @@ export function recordExamAttempt(
 }
 
 // ---------------------------------------------------------------------------
+// マージ(インポート時)
+// ---------------------------------------------------------------------------
+
+const STATUS_RANK: Record<CourseStatus, number> = {
+  "not-started": 0,
+  "in-progress": 1,
+  completed: 2,
+};
+
+/**
+ * 2つの進捗を統合する。読み込んだファイルを既存の進捗に足すときに使う。
+ *
+ * 「どちらかを捨てる」判断が必要になるので、規則を明示しておく:
+ *
+ * - 目標の資格 … 和集合(既存の並び順を保ち、無いものを後ろに足す)
+ * - コースの状態 … **進んでいるほうを採る**(完了 > 学習中 > 未着手)。
+ *   マージで学習の記録が巻き戻るのは、ユーザーにとって最も損害が大きいため
+ * - 完了時刻 … 両方完了なら**早いほう**(実際に終えたのはその時点)
+ * - メモ … 採用したほうが空なら、もう片方を使う。両方にあれば両方残す
+ * - 受験履歴 … id で重複を除いた和集合。開始時刻の昇順
+ */
+export function mergeProgress(
+  current: ProgressState,
+  incoming: ProgressState,
+  now: Date = new Date(),
+): ProgressState {
+  const selectedCertificationIds = [
+    ...current.selectedCertificationIds,
+    ...incoming.selectedCertificationIds.filter(
+      (id) => !current.selectedCertificationIds.includes(id),
+    ),
+  ];
+
+  const courses: Record<string, CourseProgress> = { ...current.courses };
+
+  for (const [courseId, incomingCourse] of Object.entries(incoming.courses)) {
+    const existing = courses[courseId];
+
+    if (!existing) {
+      courses[courseId] = incomingCourse;
+      continue;
+    }
+
+    const winner =
+      STATUS_RANK[incomingCourse.status] > STATUS_RANK[existing.status]
+        ? incomingCourse
+        : existing;
+    const loser = winner === existing ? incomingCourse : existing;
+
+    courses[courseId] = {
+      status: winner.status,
+      // 完了でない状態に完了時刻を残さない(storage の検証と同じ不変条件)
+      completedAt:
+        winner.status === "completed"
+          ? earlierCompletedAt(existing, incomingCourse)
+          : null,
+      note: mergeNotes(winner.note, loser.note),
+    };
+  }
+
+  const attemptsById = new Map(
+    [...current.examAttempts, ...incoming.examAttempts].map((attempt) => [
+      attempt.id,
+      attempt,
+    ]),
+  );
+
+  return {
+    version: CURRENT_VERSION,
+    selectedCertificationIds,
+    courses,
+    examAttempts: [...attemptsById.values()].sort((a, b) =>
+      a.startedAt.localeCompare(b.startedAt),
+    ),
+    updatedAt: now.toISOString(),
+  };
+}
+
+function earlierCompletedAt(a: CourseProgress, b: CourseProgress): string | null {
+  const times = [a.completedAt, b.completedAt].filter(
+    (value): value is string => value !== null,
+  );
+
+  if (times.length === 0) return null;
+  return times.sort()[0];
+}
+
+function mergeNotes(primary: string, secondary: string): string {
+  if (!secondary) return primary;
+  if (!primary) return secondary;
+  if (primary === secondary) return primary;
+  return `${primary}\n${secondary}`;
+}
+
+// ---------------------------------------------------------------------------
 // 集計
 // ---------------------------------------------------------------------------
 

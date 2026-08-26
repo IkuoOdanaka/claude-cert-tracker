@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SiteFooter } from "@/components/SiteFooter";
+import { ProgressIssueNotice } from "@/components/ProgressIssueNotice";
 import { SiteHeader } from "@/components/SiteHeader";
 import { ProgressProvider } from "@/features/progress";
 
@@ -42,6 +43,7 @@ export default function RootLayout({
             本文へスキップ
           </a>
           <SiteHeader />
+          <ProgressIssueNotice />
           <main id="main" className="mx-auto w-full max-w-5xl flex-1 px-4 py-10">
             {children}
           </main>
