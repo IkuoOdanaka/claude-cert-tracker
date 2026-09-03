@@ -19,9 +19,15 @@
  * 読み込み前の初期値を「進捗 0%」として描いてはいけない。
  */
 import { createContext, useContext, useMemo, useState, useSyncExternalStore } from "react";
-import type { CourseStatus, ExamAttempt, ProgressState } from "@/types/domain";
+import type {
+  CourseCheckResult,
+  CourseStatus,
+  ExamAttempt,
+  ProgressState,
+} from "@/types/domain";
 import {
   createInitialProgress,
+  recordCourseCheck as recordCourseCheckOp,
   recordExamAttempt as recordExamAttemptOp,
   setCourseNote as setCourseNoteOp,
   setCourseStatus as setCourseStatusOp,
@@ -37,6 +43,7 @@ export interface ProgressContextValue extends ProgressSnapshot {
   toggleCertification: (certificationId: string) => void;
   setCourseStatus: (courseId: string, status: CourseStatus) => void;
   setCourseNote: (courseId: string, note: string) => void;
+  recordCourseCheck: (courseId: string, result: CourseCheckResult) => void;
   recordExamAttempt: (attempt: ExamAttempt) => void;
   /** 進捗のインポート(#7)で、状態をまるごと置き換える */
   replaceProgress: (next: ProgressState) => void;
@@ -79,6 +86,8 @@ export function useProgress(): ProgressContextValue {
         store.update((current) => setCourseStatusOp(current, courseId, status)),
       setCourseNote: (courseId: string, note: string) =>
         store.update((current) => setCourseNoteOp(current, courseId, note)),
+      recordCourseCheck: (courseId: string, result: CourseCheckResult) =>
+        store.update((current) => recordCourseCheckOp(current, courseId, result)),
       recordExamAttempt: (attempt: ExamAttempt) =>
         store.update((current) => recordExamAttemptOp(current, attempt)),
       replaceProgress: (next: ProgressState) => store.update(() => next),

@@ -1,6 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { Badge } from "@/components/Badge";
+import { Button } from "@/components/Button";
+import { CourseCheck } from "@/components/CourseCheck";
 import { Card, CardBody } from "@/components/Card";
 import { CourseNote } from "@/components/CourseNote";
 import { CourseStatusControl } from "@/components/CourseStatusControl";
@@ -8,6 +11,7 @@ import { ProgressBar } from "@/components/ProgressBar";
 import { Skeleton } from "@/components/Skeleton";
 import {
   getCourseProgress,
+  getLatestCourseCheck,
   summarizeCertificationProgress,
   useProgress,
 } from "@/features/progress";
@@ -19,16 +23,21 @@ import {
   formatProvider,
   formatRemainingStudyTime,
 } from "@/lib/format";
-import type { Certification, Course } from "@/types/domain";
+import type { Certification, Course, Question } from "@/types/domain";
 
 export function CertificationRoadmap({
   certification,
   courses,
+  questionsByCourseId,
 }: {
   certification: Certification;
   courses: Course[];
+  /** コース ID → そのコースの理解度チェック用の問題 */
+  questionsByCourseId: Record<string, Question[]>;
 }) {
   const { status, progress, setCourseStatus, setCourseNote } = useProgress();
+  /** 開いているチェックのコース ID。1つずつしか開かない(画面が散らからないように) */
+  const [openCheckCourseId, setOpenCheckCourseId] = useState<string | null>(null);
 
   const loading = status === "loading";
   const courseIds = courses.map((course) => course.id);
@@ -77,6 +86,9 @@ export function CertificationRoadmap({
         {courses.map((course, index) => {
           const courseProgress = getCourseProgress(progress, course.id);
           const completed = !loading && courseProgress.status === "completed";
+          const questions = questionsByCourseId[course.id] ?? [];
+          const latestCheck = loading ? undefined : getLatestCourseCheck(progress, course.id);
+          const checkOpen = openCheckCourseId === course.id;
 
           return (
             <li key={course.id}>
@@ -154,6 +166,49 @@ export function CertificationRoadmap({
                       </a>
                     </div>
                   </div>
+
+                  {loading ? null : (
+                    <div className="flex flex-wrap items-center gap-3 border-t border-line pt-3">
+                      {questions.length === 0 ? (
+                        <p className="text-xs text-ink-muted">
+                          このコースの理解度チェックは準備中です。
+                        </p>
+                      ) : (
+                        <>
+                          <Button
+                            variant="secondary"
+                            size="sm"
+                            aria-expanded={checkOpen}
+                            onClick={() =>
+                              setOpenCheckCourseId(checkOpen ? null : course.id)
+                            }
+                          >
+                            {checkOpen ? "チェックを閉じる" : "理解度チェック"}
+                          </Button>
+
+                          {latestCheck ? (
+                            <span className="text-xs text-ink-muted">
+                              前回 {latestCheck.correctCount} / {latestCheck.totalCount} 問正解
+                              （{formatCompletedAt(latestCheck.checkedAt)}）
+                            </span>
+                          ) : (
+                            <span className="text-xs text-ink-muted">
+                              {questions.length} 問
+                            </span>
+                          )}
+                        </>
+                      )}
+                    </div>
+                  )}
+
+                  {checkOpen ? (
+                    <CourseCheck
+                      courseId={course.id}
+                      courseTitle={course.title}
+                      questions={questions}
+                      onClose={() => setOpenCheckCourseId(null)}
+                    />
+                  ) : null}
                 </CardBody>
               </Card>
             </li>

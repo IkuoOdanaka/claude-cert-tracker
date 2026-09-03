@@ -5,6 +5,7 @@
  * すべて新しい `ProgressState` を返し、引数は変更しない。
  */
 import type {
+  CourseCheckResult,
   CourseProgress,
   CourseStatus,
   ExamAttempt,
@@ -24,10 +25,19 @@ export function createInitialProgress(now: Date = new Date()): ProgressState {
     version: CURRENT_VERSION,
     selectedCertificationIds: [],
     courses: {},
+    courseChecks: {},
     examAttempts: [],
     updatedAt: now.toISOString(),
   };
 }
+
+/**
+ * 1コースぶんに残す理解度チェックの件数。
+ *
+ * 「前回 3/5 → 今回 5/5」を出せれば十分なので、全部は残さない。
+ * localStorage を無駄に太らせない。
+ */
+export const COURSE_CHECK_HISTORY_LIMIT = 5;
 
 function touch(state: ProgressState, now: Date): ProgressState {
   return { ...state, updatedAt: now.toISOString() };
@@ -122,6 +132,43 @@ export function setCourseNote(
 }
 
 // ---------------------------------------------------------------------------
+// 理解度チェック
+// ---------------------------------------------------------------------------
+
+/** 新しい順。まだ受けていなければ空 */
+export function getCourseChecks(
+  state: ProgressState,
+  courseId: string,
+): CourseCheckResult[] {
+  return state.courseChecks[courseId] ?? [];
+}
+
+/** 直近の結果。コース行に出すのに使う */
+export function getLatestCourseCheck(
+  state: ProgressState,
+  courseId: string,
+): CourseCheckResult | undefined {
+  return getCourseChecks(state, courseId)[0];
+}
+
+export function recordCourseCheck(
+  state: ProgressState,
+  courseId: string,
+  result: CourseCheckResult,
+  now: Date = new Date(),
+): ProgressState {
+  const history = [result, ...getCourseChecks(state, courseId)].slice(
+    0,
+    COURSE_CHECK_HISTORY_LIMIT,
+  );
+
+  return touch(
+    { ...state, courseChecks: { ...state.courseChecks, [courseId]: history } },
+    now,
+  );
+}
+
+// ---------------------------------------------------------------------------
 // 模擬試験
 // ---------------------------------------------------------------------------
 
@@ -208,11 +255,40 @@ export function mergeProgress(
     version: CURRENT_VERSION,
     selectedCertificationIds,
     courses,
+    courseChecks: mergeCourseChecks(current.courseChecks, incoming.courseChecks),
     examAttempts: [...attemptsById.values()].sort((a, b) =>
       a.startedAt.localeCompare(b.startedAt),
     ),
     updatedAt: now.toISOString(),
   };
+}
+
+/**
+ * 理解度チェックの履歴を統合する。
+ *
+ * 同じ受験(時刻とシードが一致)は1つにまとめ、新しい順に並べて上限で切る。
+ * どちらかを捨てる判断が要らないので、状態のマージより素直。
+ */
+function mergeCourseChecks(
+  current: Record<string, CourseCheckResult[]>,
+  incoming: Record<string, CourseCheckResult[]>,
+): Record<string, CourseCheckResult[]> {
+  const merged: Record<string, CourseCheckResult[]> = {};
+
+  for (const courseId of new Set([...Object.keys(current), ...Object.keys(incoming)])) {
+    const byKey = new Map(
+      [...(current[courseId] ?? []), ...(incoming[courseId] ?? [])].map((result) => [
+        `${result.checkedAt}:${result.seed}`,
+        result,
+      ]),
+    );
+
+    merged[courseId] = [...byKey.values()]
+      .sort((a, b) => b.checkedAt.localeCompare(a.checkedAt))
+      .slice(0, COURSE_CHECK_HISTORY_LIMIT);
+  }
+
+  return merged;
 }
 
 function earlierCompletedAt(a: CourseProgress, b: CourseProgress): string | null {

@@ -75,6 +75,7 @@ export interface ProgressSummary {
   certificationCount: number;
   recordedCourseCount: number;
   completedCourseCount: number;
+  courseCheckCount: number;
   examAttemptCount: number;
   updatedAt: string;
 }
@@ -86,6 +87,10 @@ export function summarizeProgress(progress: ProgressState): ProgressSummary {
     certificationCount: progress.selectedCertificationIds.length,
     recordedCourseCount: courses.length,
     completedCourseCount: courses.filter((c) => c.status === "completed").length,
+    courseCheckCount: Object.values(progress.courseChecks).reduce(
+      (sum, results) => sum + results.length,
+      0,
+    ),
     examAttemptCount: progress.examAttempts.length,
     updatedAt: progress.updatedAt,
   };

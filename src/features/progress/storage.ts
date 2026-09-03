@@ -10,6 +10,7 @@
  * 呼び出し側には `issue` として何が起きたかを返す。
  */
 import type {
+  CourseCheckResult,
   CourseProgress,
   CourseStatus,
   ExamAnswer,
@@ -123,6 +124,65 @@ function parseExamAttempt(
   };
 }
 
+function parseCourseCheck(
+  value: unknown,
+  dropped: DropCounter,
+): CourseCheckResult | null {
+  if (
+    !isRecord(value) ||
+    typeof value.seed !== "string" ||
+    typeof value.checkedAt !== "string" ||
+    typeof value.correctCount !== "number" ||
+    typeof value.totalCount !== "number" ||
+    !Number.isFinite(value.correctCount) ||
+    !Number.isFinite(value.totalCount)
+  ) {
+    return dropped.drop();
+  }
+
+  // 正答数が出題数を超える結果は表示すると意味不明になるので受け付けない
+  if (value.totalCount < 0 || value.correctCount < 0 || value.correctCount > value.totalCount) {
+    return dropped.drop();
+  }
+
+  return {
+    correctCount: value.correctCount,
+    totalCount: value.totalCount,
+    seed: value.seed,
+    checkedAt: value.checkedAt,
+  };
+}
+
+function parseCourseChecks(
+  value: unknown,
+  dropped: DropCounter,
+): Record<string, CourseCheckResult[]> {
+  // courseChecks は後から足したフィールド。古い保存データには無いので、
+  // 無いこと自体は壊れているとみなさない
+  if (value === undefined) return {};
+  if (!isRecord(value)) {
+    dropped.drop();
+    return {};
+  }
+
+  const checks: Record<string, CourseCheckResult[]> = {};
+
+  for (const [courseId, rawList] of Object.entries(value)) {
+    if (!Array.isArray(rawList)) {
+      dropped.drop();
+      continue;
+    }
+
+    const parsed = rawList
+      .map((raw) => parseCourseCheck(raw, dropped))
+      .filter((result): result is CourseCheckResult => result !== null);
+
+    if (parsed.length > 0) checks[courseId] = parsed;
+  }
+
+  return checks;
+}
+
 /**
  * 保存されていた値をドメイン型に変換する。
  * 全体の形が想定と違えば null。個々のエントリの壊れは捨てて `dropped` に数える。
@@ -150,6 +210,7 @@ function parseProgressState(
       (id): id is string => typeof id === "string",
     ),
     courses,
+    courseChecks: parseCourseChecks(value.courseChecks, dropped),
     examAttempts: value.examAttempts
       .map((raw) => parseExamAttempt(raw, dropped))
       .filter((a): a is ExamAttempt => a !== null),

@@ -44,6 +44,8 @@ function SummaryList({ progress }: { progress: ProgressState }) {
       <dd className="text-ink">
         {summary.recordedCourseCount} 件（うち完了 {summary.completedCourseCount} 件）
       </dd>
+      <dt className="text-ink-muted">理解度チェック</dt>
+      <dd className="text-ink">{summary.courseCheckCount} 件</dd>
       <dt className="text-ink-muted">模擬試験の受験</dt>
       <dd className="text-ink">{summary.examAttemptCount} 件</dd>
       <dt className="text-ink-muted">最終更新</dt>

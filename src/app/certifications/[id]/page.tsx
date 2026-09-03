@@ -4,7 +4,12 @@ import { Badge } from "@/components/Badge";
 import { Card, CardBody } from "@/components/Card";
 import { CertificationRoadmap } from "@/components/CertificationRoadmap";
 import { PageHeading } from "@/components/PageHeading";
-import { getCertification, getCertifications, getCoursesFor } from "@/lib/content";
+import {
+  getCertification,
+  getCertifications,
+  getCoursesFor,
+  getQuestionsForCourse,
+} from "@/lib/content";
 import { formatLevel, formatPriceUsd, formatRole } from "@/lib/format";
 
 /** 静的書き出しのため、生成するパスを列挙する */
@@ -39,6 +44,10 @@ export default async function CertificationPage({
   if (!certification) notFound();
 
   const courses = getCoursesFor(certification);
+  // 問題はビルド時に解決する。画面側は data/*.json を直接読まない
+  const questionsByCourseId = Object.fromEntries(
+    courses.map((course) => [course.id, getQuestionsForCourse(course.id)]),
+  );
 
   const derivedDomains = certification.domainsSource === "derived-from-prep-courses";
 
@@ -119,7 +128,11 @@ export default async function CertificationPage({
         </CardBody>
       </Card>
 
-      <CertificationRoadmap certification={certification} courses={courses} />
+      <CertificationRoadmap
+        certification={certification}
+        courses={courses}
+        questionsByCourseId={questionsByCourseId}
+      />
     </>
   );
 }

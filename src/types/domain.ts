@@ -118,11 +118,29 @@ export interface ExamAttempt {
   answers: ExamAnswer[];
 }
 
-/** localStorage キー: `cct:progress`。version はマイグレーション用 */
+/** コース単位の理解度チェックの結果 */
+export interface CourseCheckResult {
+  correctCount: number;
+  totalCount: number;
+  /** 出題に使ったシード。「もう一度同じ問題で」に使う */
+  seed: string;
+  checkedAt: string;
+}
+
+/**
+ * localStorage キー: `cct:progress`。version はマイグレーション用。
+ *
+ * `courseChecks` は version 1 のまま**追加した**。version を上げると、
+ * 古いビルドがこのデータを "newer-version" として読まなくなり、
+ * 進捗全体が使えなくなる。理解度チェックの結果を失うより損害が大きい。
+ * 追加だけの変更で、古いビルドでも他のフィールドはそのまま読める。
+ */
 export interface ProgressState {
   version: 1;
   selectedCertificationIds: string[];
   courses: Record<string, CourseProgress>;
+  /** コース ID → 新しい順の結果(直近数件のみ保持する) */
+  courseChecks: Record<string, CourseCheckResult[]>;
   examAttempts: ExamAttempt[];
   updatedAt: string;
 }
