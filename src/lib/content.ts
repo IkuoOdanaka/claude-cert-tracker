@@ -149,6 +149,41 @@ export function getQuestionBank(certificationId: string): readonly Question[] {
   return questionBanksByCertificationId.get(certificationId) ?? [];
 }
 
+/**
+ * コース1本ぶんの問題。理解度チェックで使う。
+ * 問題を用意していないコースでは空配列になるので、呼び出し側は
+ * 「このコースの問題はまだありません」を出せるようにしておくこと。
+ */
+export function getQuestionsForCourse(courseId: string): Question[] {
+  const certification = getCertificationsForCourse(courseId)[0];
+  if (!certification) return [];
+
+  return getQuestionBank(certification.id).filter((question) =>
+    question.courseIds.includes(courseId),
+  );
+}
+
+/**
+ * コースごとの問題数。学習ロードマップで「理解度チェック」ボタンを
+ * 出せるかどうかの判定と、作問の進み具合の把握に使う。
+ * 問題が0件のコースも 0 として現れる。
+ */
+export function countQuestionsByCourse(certificationId: string): Record<string, number> {
+  const counts: Record<string, number> = {};
+  const certification = certificationsById.get(certificationId);
+
+  for (const courseId of certification?.courseIds ?? []) {
+    counts[courseId] = 0;
+  }
+  for (const question of getQuestionBank(certificationId)) {
+    for (const courseId of question.courseIds) {
+      counts[courseId] = (counts[courseId] ?? 0) + 1;
+    }
+  }
+
+  return counts;
+}
+
 /** 出題ドメインごとの問題数。模擬試験の設定画面で「足りないドメイン」を示すのに使う。 */
 export function countQuestionsByDomain(
   certificationId: string,

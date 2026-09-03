@@ -71,6 +71,12 @@ export interface Question {
   certificationId: string;
   /** Certification.examDomains[].id を参照する */
   domainId: string;
+  /**
+   * この問題が確かめるコース。Course.id を参照する。
+   * 理解度チェック(コース単位)で問題を引くために使う。1問が複数コースに
+   * またがることを許すので配列だが、空にはしない(どのコースからも引けなくなる)。
+   */
+  courseIds: string[];
   type: QuestionType;
   /** 1 = やさしい, 2 = 標準, 3 = 難しい */
   difficulty: 1 | 2 | 3;

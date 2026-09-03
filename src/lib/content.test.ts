@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  countQuestionsByCourse,
   countQuestionsByDomain,
   getCertification,
   getCertifications,
@@ -10,6 +11,7 @@ import {
   getCourse,
   getCoursesFor,
   getQuestionBank,
+  getQuestionsForCourse,
   STALE_AFTER_DAYS,
   summarizeStudyTime,
   summarizeStudyTimeFor,
@@ -240,5 +242,45 @@ describe("getContentFreshness", () => {
 describe("getContentStats", () => {
   it("掲載している資格数とコース数を返す", () => {
     expect(getContentStats()).toEqual({ certificationCount: 4, courseCount: 25 });
+  });
+});
+
+describe("getQuestionsForCourse", () => {
+  it("そのコースの問題だけを返す", () => {
+    const questions = getQuestionsForCourse("assoc-governance-risk-and-responsible-use");
+
+    expect(questions.length).toBeGreaterThan(0);
+    expect(
+      questions.every((q) => q.courseIds.includes("assoc-governance-risk-and-responsible-use")),
+    ).toBe(true);
+  });
+
+  it("問題を用意していないコースでは空配列を返す", () => {
+    expect(getQuestionsForCourse("assoc-course-summary-and-next-steps")).toEqual([]);
+  });
+
+  it("知らないコース ID でも空配列を返す", () => {
+    expect(getQuestionsForCourse("no-such-course")).toEqual([]);
+  });
+});
+
+describe("countQuestionsByCourse", () => {
+  it("資格の全コースがキーとして現れ、0件のコースも 0 になる", () => {
+    const counts = countQuestionsByCourse(ASSOCIATE);
+    const courseIds = getCertification(ASSOCIATE)!.courseIds;
+
+    expect(Object.keys(counts).sort()).toEqual([...courseIds].sort());
+    expect(counts["assoc-course-summary-and-next-steps"]).toBe(0);
+    expect(counts["assoc-governance-risk-and-responsible-use"]).toBe(1);
+  });
+
+  it("問題を用意していない資格では全コースが 0", () => {
+    const counts = countQuestionsByCourse(DEVELOPER);
+    expect(Object.values(counts).every((n) => n === 0)).toBe(true);
+    expect(Object.keys(counts).length).toBe(5);
+  });
+
+  it("知らない資格 ID では空オブジェクトを返す", () => {
+    expect(countQuestionsByCourse("no-such-certification")).toEqual({});
   });
 });
