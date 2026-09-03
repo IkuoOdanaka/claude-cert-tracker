@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
 import type { ExamAttempt, ProgressState } from "@/types/domain";
 import {
+  COURSE_CHECK_HISTORY_LIMIT,
   createInitialProgress,
+  getCourseChecks,
+  getLatestCourseCheck,
+  recordCourseCheck,
   getCourseProgress,
   isCertificationSelected,
   listCompletedCourses,
@@ -34,6 +38,7 @@ describe("createInitialProgress", () => {
       version: 1,
       selectedCertificationIds: [],
       courses: {},
+      courseChecks: {},
       examAttempts: [],
       updatedAt: T1.toISOString(),
     });
@@ -168,5 +173,58 @@ describe("recordExamAttempt", () => {
     );
 
     expect(state.examAttempts.map((a) => a.id)).toEqual(["first", "second"]);
+  });
+});
+
+describe("理解度チェックの記録", () => {
+  const result = (correctCount: number, seed: string, checkedAt: Date) => ({
+    correctCount,
+    totalCount: 5,
+    seed,
+    checkedAt: checkedAt.toISOString(),
+  });
+
+  it("まだ受けていないコースは空", () => {
+    const state = createInitialProgress(T1);
+
+    expect(getCourseChecks(state, "course-a")).toEqual([]);
+    expect(getLatestCourseCheck(state, "course-a")).toBeUndefined();
+  });
+
+  it("新しい結果が先頭に来る", () => {
+    let state = createInitialProgress(T1);
+    state = recordCourseCheck(state, "course-a", result(3, "s1", T1), T1);
+    state = recordCourseCheck(state, "course-a", result(5, "s2", T2), T2);
+
+    expect(getCourseChecks(state, "course-a").map((r) => r.correctCount)).toEqual([5, 3]);
+    expect(getLatestCourseCheck(state, "course-a")?.correctCount).toBe(5);
+  });
+
+  it("コースごとに分かれて記録される", () => {
+    let state = createInitialProgress(T1);
+    state = recordCourseCheck(state, "course-a", result(3, "s1", T1), T1);
+    state = recordCourseCheck(state, "course-b", result(4, "s2", T1), T1);
+
+    expect(getCourseChecks(state, "course-a")).toHaveLength(1);
+    expect(getCourseChecks(state, "course-b")).toHaveLength(1);
+  });
+
+  it("上限を超えた古い結果は捨てる", () => {
+    let state = createInitialProgress(T1);
+    for (let i = 0; i < COURSE_CHECK_HISTORY_LIMIT + 3; i += 1) {
+      state = recordCourseCheck(state, "course-a", result(i, `s${i}`, T1), T1);
+    }
+
+    const checks = getCourseChecks(state, "course-a");
+    expect(checks).toHaveLength(COURSE_CHECK_HISTORY_LIMIT);
+    // 直近のものが残っている
+    expect(checks[0].seed).toBe(`s${COURSE_CHECK_HISTORY_LIMIT + 2}`);
+  });
+
+  it("引数の state を変更しない", () => {
+    const state = createInitialProgress(T1);
+    recordCourseCheck(state, "course-a", result(3, "s1", T1), T1);
+
+    expect(state.courseChecks).toEqual({});
   });
 });

@@ -7,7 +7,9 @@ import {
 } from "./transfer";
 import {
   createInitialProgress,
+  getCourseChecks,
   mergeProgress,
+  recordCourseCheck,
   setCourseNote,
   setCourseStatus,
   toggleSelectedCertification,
@@ -34,6 +36,12 @@ function sample(): ProgressState {
   state = setCourseStatus(state, "course-a", "completed", T1);
   state = setCourseNote(state, "course-a", "メモ", T1);
   state = setCourseStatus(state, "course-b", "in-progress", T1);
+  state = recordCourseCheck(
+    state,
+    "course-a",
+    { correctCount: 4, totalCount: 5, seed: "s1", checkedAt: T1.toISOString() },
+    T1,
+  );
   return state;
 }
 
@@ -121,6 +129,7 @@ describe("summarizeProgress", () => {
       certificationCount: 1,
       recordedCourseCount: 2,
       completedCourseCount: 1,
+      courseCheckCount: 1,
       examAttemptCount: 0,
       updatedAt: T1.toISOString(),
     });
@@ -232,5 +241,58 @@ describe("mergeProgress", () => {
     mergeProgress(a, sample(), T2);
 
     expect(JSON.stringify(a)).toBe(before);
+  });
+});
+
+describe("mergeProgress: 理解度チェック", () => {
+  const check = (correctCount: number, seed: string, checkedAt: string) => ({
+    correctCount,
+    totalCount: 5,
+    seed,
+    checkedAt,
+  });
+
+  it("同じ受験(時刻とシードが同じ)は重複させない", () => {
+    const one = check(3, "s1", "2026-08-20T00:00:00.000Z");
+    const a = recordCourseCheck(createInitialProgress(T1), "course-a", one, T1);
+
+    expect(getCourseChecks(mergeProgress(a, a, T2), "course-a")).toHaveLength(1);
+  });
+
+  it("別々の受験は両方残り、新しい順に並ぶ", () => {
+    const a = recordCourseCheck(
+      createInitialProgress(T1),
+      "course-a",
+      check(3, "s1", "2026-08-20T00:00:00.000Z"),
+      T1,
+    );
+    const b = recordCourseCheck(
+      createInitialProgress(T1),
+      "course-a",
+      check(5, "s2", "2026-08-25T00:00:00.000Z"),
+      T1,
+    );
+
+    expect(
+      getCourseChecks(mergeProgress(a, b, T2), "course-a").map((r) => r.seed),
+    ).toEqual(["s2", "s1"]);
+  });
+
+  it("片方にしかないコースもそのまま残る", () => {
+    const a = recordCourseCheck(
+      createInitialProgress(T1),
+      "course-a",
+      check(3, "s1", "2026-08-20T00:00:00.000Z"),
+      T1,
+    );
+    const b = recordCourseCheck(
+      createInitialProgress(T1),
+      "course-b",
+      check(4, "s2", "2026-08-21T00:00:00.000Z"),
+      T1,
+    );
+
+    const merged = mergeProgress(a, b, T2);
+    expect(Object.keys(merged.courseChecks).sort()).toEqual(["course-a", "course-b"]);
   });
 });

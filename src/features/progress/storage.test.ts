@@ -192,3 +192,72 @@ describe("clearProgress", () => {
     expect(localStorage.getItem(STORAGE_KEY)).toBeNull();
   });
 });
+
+describe("courseChecks の読み込み", () => {
+  const withChecks = (courseChecks: unknown) =>
+    parseStoredProgress(JSON.stringify({ ...validStored, courseChecks }));
+
+  it("courseChecks が無い古い保存データも、壊れているとみなさない", () => {
+    // version 1 のまま後から足したフィールドなので、無いのが正常
+    const result = parseStoredProgress(JSON.stringify(validStored));
+
+    expect(result.issue).toBeNull();
+    expect(result.progress.courseChecks).toEqual({});
+  });
+
+  it("正しい結果はそのまま読み込む", () => {
+    const result = withChecks({
+      "course-a": [
+        { correctCount: 4, totalCount: 5, seed: "s1", checkedAt: "2026-08-25T00:00:00.000Z" },
+      ],
+    });
+
+    expect(result.issue).toBeNull();
+    expect(result.progress.courseChecks["course-a"]).toHaveLength(1);
+  });
+
+  it("正答数が出題数を超える結果は捨てる", () => {
+    // 表示すると「7 / 5 問正解」になって意味不明なので受け付けない
+    const result = withChecks({
+      "course-a": [
+        { correctCount: 7, totalCount: 5, seed: "s1", checkedAt: "2026-08-25T00:00:00.000Z" },
+      ],
+    });
+
+    expect(result.issue).toEqual({ kind: "partial", droppedCount: 1 });
+    expect(result.progress.courseChecks).toEqual({});
+  });
+
+  it("負の値や欠けたフィールドを持つ結果は捨てる", () => {
+    const result = withChecks({
+      "course-a": [
+        { correctCount: -1, totalCount: 5, seed: "s1", checkedAt: "2026-08-25T00:00:00.000Z" },
+        { correctCount: 3, totalCount: 5, checkedAt: "2026-08-25T00:00:00.000Z" },
+        { correctCount: 3, totalCount: 5, seed: "s3" },
+        "文字列",
+      ],
+    });
+
+    expect(result.issue).toEqual({ kind: "partial", droppedCount: 4 });
+    expect(result.progress.courseChecks).toEqual({});
+  });
+
+  it("壊れた結果を捨てても、正しい結果は残す", () => {
+    const result = withChecks({
+      "course-a": [
+        { correctCount: 4, totalCount: 5, seed: "ok", checkedAt: "2026-08-25T00:00:00.000Z" },
+        { correctCount: 99, totalCount: 5, seed: "ng", checkedAt: "2026-08-25T00:00:00.000Z" },
+      ],
+    });
+
+    expect(result.progress.courseChecks["course-a"].map((r) => r.seed)).toEqual(["ok"]);
+  });
+
+  it("courseChecks が配列やオブジェクト以外でも、進捗全体は読める", () => {
+    const result = withChecks("これはオブジェクトではない");
+
+    expect(result.progress.courses).not.toEqual({});
+    expect(result.progress.courseChecks).toEqual({});
+    expect(result.issue?.kind).toBe("partial");
+  });
+});
