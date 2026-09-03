@@ -133,6 +133,24 @@ describe("data/questions/*.json", () => {
     }
   });
 
+  it("courseIds が空でなく、実在する、その資格のコースを指している", () => {
+    for (const bank of questionBanks) {
+      const cert = certifications.find((c) => c.id === bank.certificationId)!;
+      const certCourseIds = new Set(cert.courseIds);
+
+      for (const q of bank.questions) {
+        expect(q.courseIds.length, `${q.id}: courseIds が空`).toBeGreaterThan(0);
+        for (const courseId of q.courseIds) {
+          expect(courseIds.has(courseId), `${q.id} -> ${courseId} は courses.json に無い`).toBe(true);
+          expect(
+            certCourseIds.has(courseId),
+            `${q.id} -> ${courseId} は ${cert.id} のコースではない`,
+          ).toBe(true);
+        }
+      }
+    }
+  });
+
   it("問題 id が一意で、解説と出典がある", () => {
     const seen = new Set<string>();
     for (const bank of questionBanks) {
